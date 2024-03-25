@@ -1,5 +1,11 @@
 <?php
-// Check if the button is clicked
+session_start();
+if(isset($_SESSION['zalogowano'])){
+    if($_SESSION['zalogowano']!=="nie"){
+        header("Location: ./index.php");
+        exit;
+    }
+}
 if(isset($_POST['redirectlog'])) {
     // Redirect to another page
     unset($_POST);
@@ -12,20 +18,25 @@ if(isset($_POST['redirectlog'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="logowanie.css">
     <title>Document</title>
 </head>
 <body>
+    <div class="login-container">
     <form method="post">
         <input type="text" placeholder="login" name="login">
         <input type="password" name="password" placeholder="password">
         <input type="password" name="passwordrep" placeholder="repeat password">
         <input type="submit" value="Zarejestruj">
     </form>
-    <form method="post">
+    <form method="post" class="return">
+    <p>Masz już konto?</p>
     <input type="submit" name="redirectlog" value="Zaloguj">
     </form>
-    <?php 
-    if(isset($_POST['login']) && isset($_POST['password']) && $_POST['password']==$_POST['passwordrep']){
+    <?php
+        if(isset($_POST['login']) && isset($_POST['password'])){
+        if($_POST['login']!=="" && $_POST['password']!=="" && $_POST['passwordrep']!==""){
+        if($_POST['password']===$_POST['passwordrep']){
         $conn = mysqli_connect('localhost','root','','sklep');
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
@@ -49,7 +60,17 @@ if(isset($_POST['redirectlog'])) {
             }
         }
         mysqli_close($conn);
+        }
+        else{
+            echo "Hasła się nie zgadzają";
+
+        }
+    }
+    else{
+        echo "wypełnij wszystkie pola";
+    }
     }
     ?>
+    </div>
 </body>
 </html>

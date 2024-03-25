@@ -2,7 +2,12 @@
     session_start();
 ?>
 <?php
-// Check if the button is clicked
+if(isset($_SESSION['zalogowano'])){
+    if($_SESSION['zalogowano']!=="nie"){
+        header("Location: ./index.php");
+        exit;
+    }
+}
 if(isset($_POST['redirect'])) {
     // Redirect to another page
     unset($_POST);
@@ -15,20 +20,23 @@ if(isset($_POST['redirect'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="logowanie.css">
     <title>Document</title>
 </head>
 <body>
+    <div class="login-container">
     <form method="post">
         <input type="text" placeholder="login" name="login">
         <input type="password" name="password" placeholder="password">
         <input type="submit" value="Zaloguj">
     </form>
-    <form method="post">
+    <form method="post" class="return">
+        <p>Nie masz konta?</p>
     <input type="submit" name="redirect" value="Zarejestruj">
     </form>
+    </div>
     <?php 
     if(isset($_POST['login']) && isset($_POST['password'])){
-        echo "check";
         $conn = mysqli_connect('localhost','root','','sklep');
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
@@ -42,9 +50,6 @@ if(isset($_POST['redirect'])) {
             echo "witaj: $row[login]";
             $_SESSION['zalogowano'] = "tak";
             header("Location: ./index.php");
-        }
-        else{
-            echo 'nie zalogowano';
         }
         mysqli_close($conn);
     }
