@@ -15,7 +15,9 @@ if($_SESSION['zalogowano']!=="tak"){
 </head>
 <body>
     <div id="menu">
+        <div id="buttonContainer">
         <?php  include 'menu.php'?>
+        </div>
         <div  id="userPNG">
         <img src="User.png" width="50px" onclick="toggleDropdown()">
         <div id="dropdownContent">
@@ -29,21 +31,31 @@ if($_SESSION['zalogowano']!=="tak"){
         </div>
     </div>
     <div>
+        <div id="header">Produkty</div>
+    <div id="productsContainer">
         <?php
         $conn = mysqli_connect('localhost','root','','sklep');
         $sql = "SELECT * FROM produkty";
         $result = mysqli_query($conn,$sql);
         if(mysqli_num_rows($result)>0){
             while($row=mysqli_fetch_assoc($result)){
-                echo "<div>";
-                echo "<h1>$row[nazwa]</h1>";
-                echo "<img src='./$row[FilePath]'/>";
-                echo "<h2>$row[cena]zł</h2>";
-                echo "<h3>Na stanie: $row[ilosc]</h3>";
+                if($row['ilosc']>10) $quantityColor = "green";
+                else if ($row['ilosc']>0) $quantityColor = "yellow";
+                else $quantityColor = "red";
+                echo "<div class='product'>";
+                echo "<h2 class='product-title'>$row[nazwa]</h2>";
+                echo "<div class='zdjCont'>";
+                echo "<img class='prodZdj' src='./$row[FilePath]'/>";
+                echo "</div>";
+                echo "<p class='product-price'>$row[cena]zł</p>";
+                echo "<p class='product-quantity' style='Color:$quantityColor'>";
+                echo $row['ilosc'];
+                echo "</p>";
                 echo "</div>";
             }
         }
         ?>
+    </div>
     </div>
     <script>
   function toggleDropdown() {

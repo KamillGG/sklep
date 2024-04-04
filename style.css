@@ -1,7 +1,7 @@
 body{
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 20vh 80vh;
+    grid-template-rows: 10vh 90vh;
     grid-template-areas: "menu" "main";
     margin: 0;
 }
@@ -17,4 +17,104 @@ body{
     position: absolute;
     z-index: 450;
     right: 0;
+}
+.przyciski {
+    background-color: #28a745; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    width: 200px;
+  }
+  
+  .przyciski:hover {
+    background-color: white;
+    color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .przyciski::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #28a745;
+    transition: width 0.3s;
+  }
+  
+  .przyciski:hover::after {
+    width: 100%;
+  }
+  #buttonContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-direction: row;
+    width: 100%;
+  }
+  #productsContainer{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-items: stretch;
+  }
+  .product {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .prodZdj {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    aspect-ratio: 1/1;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .product-info {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .product-price,
+  .product-quantity {
+    font-size: 18px;
+    margin: 0;
+  }
+#header {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 2px;
+}
+
+#header::before, #header::after {
+  flex: 1;
+  content: '';
+  padding: 1px;
+  background-color: #28a745;
+  border-radius: 2px;
+  margin: 5px;
 }

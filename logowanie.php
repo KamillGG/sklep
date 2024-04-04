@@ -50,7 +50,10 @@ if(isset($_POST['redirect'])) {
             echo "witaj: $row[login]";
             $_SESSION['zalogowano'] = "tak";
             if($row['upr']=="admin"){
-                $_SESSION['admin']="tak";
+                $_SESSION['uprawnienia']="admin";
+            }
+            else if($row['upr']=="pracownik"){
+                $_SESSION['uprawnienia']="pracownik";
             }
             header("Location: ./index.php");
         }
