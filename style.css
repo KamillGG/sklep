@@ -1,7 +1,20 @@
 body{
     display: grid;
-    grid-template-columns: 20% 80%;
-    grid-template-rows: 100vh;
-    grid-template-areas: "menu main";
+    grid-template-columns: 100%;
+    grid-template-rows: 20vh 80vh;
+    grid-template-areas: "menu" "main";
     margin: 0;
+}
+#menu{
+    display: flex;
+    flex-direction: row;
+}
+#userPNG{
+    margin-left: auto;
+}
+#dropdownContent{
+    display: none;
+    position: absolute;
+    z-index: 450;
+    right: 0;
 }

@@ -49,6 +49,9 @@ if(isset($_POST['redirect'])) {
             $row=mysqli_fetch_assoc($result);
             echo "witaj: $row[login]";
             $_SESSION['zalogowano'] = "tak";
+            if($row['upr']=="admin"){
+                $_SESSION['admin']="tak";
+            }
             header("Location: ./index.php");
         }
         mysqli_close($conn);

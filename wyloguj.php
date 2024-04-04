@@ -1,3 +1,8 @@
+<?php
+session_start();
+    session_destroy(); 
+    header("Location: ./logowanie.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +11,5 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
-    if(isset('zalogowany'))
-    ?>
 </body>
 </html>
