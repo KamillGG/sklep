@@ -15,3 +15,11 @@
         echo "<li><a href='dodawanie.php'>Dodaj Produkt</a></li>";
     }
     ?>
+<form method="post">
+    <input type="hidden" name="menuToggle" value="true">
+    <button type="submit"><img src='User.png' width='50px'></button>
+</form>
+<?php 
+    if(!empty($_POST['menuToggle'])){
+    }
+?>
