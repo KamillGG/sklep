@@ -21,7 +21,6 @@ if ($_SESSION['zalogowano'] !== "tak") {
             <?php include 'menu.php' ?>
         </div>
         <div id="userPNG">
-            <img src="User.png" width="50px" onclick="toggleDropdown()">
             <div id="dropdownContent">
                 <form action="settings.php">
                     <input type="submit" value="Ustawienia">
@@ -59,16 +58,6 @@ if ($_SESSION['zalogowano'] !== "tak") {
             ?>
         </div>
     </div>
-    <script>
-        function toggleDropdown() {
-            var dropdownContent = document.getElementById("dropdownContent");
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        }
-    </script>
 </body>
 
 </html>

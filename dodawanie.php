@@ -39,7 +39,9 @@ if (!empty($_POST['nazwa']) && !empty($_POST['opis']) && !empty($_POST['cena']))
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             $conn = mysqli_connect('localhost', 'root', '', 'sklep');
             $sql = "INSERT INTO produkty(nazwa, opis,cena, ilosc, FilePath) VALUES ('$name','$opis','$cena','$ilosc','$target_file')";
-            mysqli_query($conn, $sql);
+            if(mysqli_query($conn, $sql)){
+                "Dodano";
+            }
             mysqli_close($conn);
             header("Location: ./index.php");
         }
@@ -52,19 +54,26 @@ if (!empty($_POST['nazwa']) && !empty($_POST['opis']) && !empty($_POST['cena']))
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="add.css">
     <title>Document</title>
 </head>
 
 <body>
-
+    <div class="add-container">
+    
     <form method="post" enctype="multipart/form-data">
-        Nazwa: <input type="text" placeholder="nazwa" name="nazwa">
-        Opis <input type="text" placeholder="opis" name="opis">
-        Cena: <input type="number" placeholder="cena" step="0.01" name="cena">
-        Ilosc: <input type="text" name="ilosc">
-        Zdjecie: <input type="file" placeholder="zdjecie" name="image">
-        <input type="submit" value="dodaj">
+        <input type="text" placeholder="Nazwa Produktu" name="nazwa">
+        <input type="text" placeholder="Opis Produktu" name="opis" id="opis">
+        <input type="number" placeholder="Cena Produktu" step="0.01" name="cena">
+        <input type="number" name="Ilosc Produktu" placeholder="ilosc">
+        <label for="image" class="file-label">Wybierz zdjecie Produktu</label>
+        <input type="file" placeholder="zdjecie" name="image" id="image">
+        <input type="submit" value="Zatwierdź">
     </form>
+    <form action="index.php">
+    <input type="submit" value="Powrót">
+    </form>
+    </div>
 </body>
 
 </html>
