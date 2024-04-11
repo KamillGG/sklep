@@ -44,6 +44,7 @@ body {
   }
   .control{
     width: 253px;
+    height: 50px;
   }
   select {
     padding: 8px;
@@ -69,4 +70,19 @@ select:focus {
 }
 h3{
     width: 20%;
+}
+.photoName{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.actions{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: space-between;
+  width: 20%;
+}
+h3{
+  margin: 5px;
 }

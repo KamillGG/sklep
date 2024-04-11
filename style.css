@@ -33,6 +33,8 @@ body{
     border-radius: 8px;
     border: 2px solid transparent;
     width: 200px;
+    font-size: 18px; /* Adjust font size as needed */
+    font-family: Arial, sans-serif; /* Adjust font family as needed */
   }
   
   .przyciski:hover {
@@ -118,4 +120,37 @@ body{
   border-radius: 2px;
   margin: 5px;
 }
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 9999; /* ensure the popup is on top of other elements */
+  color: white;
+}
 
+.popup.active {
+  display: block;
+}
+
+.popup-text {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.popup-link {
+  display: inline-block;
+  background-color: #28a745;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.popup-link:hover {
+  background-color: #218838; /* Darker shade of green on hover */
+}
