@@ -5,6 +5,37 @@ if ($_SESSION['zalogowano'] !== "tak") {
     exit;
 }
 ?>
+<?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if(isset($_POST['id_prod']) && $_POST['id_prod'] !== ''){
+        $conn = mysqli_connect('localhost', 'root', '', 'sklep');
+        $sq = "SELECT * FROM `koszyki`,produkty WHERE id_uzytkownicy='$_SESSION[uzytkownik]' AND id_produktu=produkty.id AND id_produktu=$_POST[id_prod];";
+        $res = mysqli_query($conn,$sq);
+        if(mysqli_num_rows($res)>0){
+            $row = mysqli_fetch_assoc($res);
+            if($row['ilosc']>$row['ilosc_zamow']){
+                $sql = "UPDATE koszyki SET ilosc_zamow=ilosc_zamow+1 WHERE id_produktu=$_POST[id_prod] AND id_uzytkownicy='$_SESSION[uzytkownik]';";
+            $result = mysqli_query($conn, $sql);
+        $rowsAff=mysqli_affected_rows($conn);
+        if($rowsAff>0){
+            unset($rowsAff);
+        }
+        else{
+            $sql2= "INSERT INTO `koszyki`(`id_produktu`, `id_uzytkownicy`, `ilosc_zamow`) VALUES ('$_POST[id_prod]','$_SESSION[uzytkownik]',1)";
+            mysqli_query($conn, $sql2);
+        }
+        unset($_POST['id_prod']);
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+            }
+            else{
+                $_SESSION['displayMax']=true;
+            }
+        }
+        mysqli_close($conn);
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,18 +49,8 @@ if ($_SESSION['zalogowano'] !== "tak") {
 <body>
     <div id="menu">
         <div id="buttonContainer">
+        
             <?php include 'menu.php' ?>
-        </div>
-        <div id="userPNG">
-            <img src="User.png" width="50px" onclick="toggleDropdown()">
-            <div id="dropdownContent">
-                <form action="settings.php">
-                    <input type="submit" value="Ustawienia">
-                </form>
-                <form action="wyloguj.php">
-                    <input type="submit" value="Wyloguj">
-                </form>
-            </div>
         </div>
     </div>
     <div>
@@ -53,22 +74,15 @@ if ($_SESSION['zalogowano'] !== "tak") {
                     echo "<p class='product-quantity' style='Color:$quantityColor'>";
                     echo $row['ilosc'];
                     echo "</p>";
+                    echo "<form action='index.php' method='post'>";
+                    echo "<input type='hidden' name='id_prod' value='$row[id]'>";
+                    echo "<input type='submit' value='Dodaj do Koszyka' class='przyciski'>";
+                    echo "</form>";
                     echo "</div>";
                 }
             }
             ?>
         </div>
     </div>
-    <script>
-        function toggleDropdown() {
-            var dropdownContent = document.getElementById("dropdownContent");
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        }
-    </script>
 </body>
-
 </html>
