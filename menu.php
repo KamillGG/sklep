@@ -1,9 +1,17 @@
 <link rel="stylesheet" href="dropdown.css">
-<form action="koszyk.php" method="post">
+<form action="koszyk.php" method="post" id="formKosz">
+    <?php 
+    $conn = mysqli_connect('localhost', 'root', '', 'sklep');
+    $sql = "SELECT COUNT(id) AS ilosc FROM koszyki";
+    $result = mysqli_query($conn, $sql);
+    if(mysqli_num_rows($result)>0){
+        $row = mysqli_fetch_assoc($result);
+        echo "<span class='badge'>$row[ilosc]</span>";
+    }
+    ?>
     <input type="submit" value="Koszyk" class='przyciski'>
 </form>
 <?php
-error_reporting(E_ERROR | E_PARSE);
 if ($_SESSION['uprawnienia'] == "admin") {
     echo "<form action='dodawanie.php' method='post'>";
     echo "<input type='submit' value='Dodaj Produkt' class='przyciski'>";

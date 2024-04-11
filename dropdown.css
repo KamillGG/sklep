@@ -30,3 +30,16 @@
   }
   
   .dropdown-content a:hover {background-color: #f1f1f1}
+  #formKosz .badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: rgb(214, 20, 20);
+    color: white;
+    cursor: pointer;
+  }
+  #formKosz{
+    position: relative;
+  }
