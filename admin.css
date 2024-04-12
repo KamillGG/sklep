@@ -1,0 +1,14 @@
+body{
+    background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 10vh 90vh;
+    grid-template-areas: "menu" "main";
+    background-color: #f2f2f2;
+    margin: 0;
+}
+#usersContainer{
+    background-color: white;
+    width: 20%;
+    height: 100%;
+}

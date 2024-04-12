@@ -27,14 +27,17 @@ if (isset($_POST['redirect'])) {
 
 <body>
     <div class="login-container">
+        <div class="login-header">
+            <h1>Logowanie</h1>
+        </div>
         <form method="post">
             <input type="text" placeholder="login" name="login">
             <input type="password" name="password" placeholder="password">
-            <input type="submit" value="Zaloguj">
+            <input type="submit" value="Zaloguj" class="przyciski">
         </form>
         <form method="post" class="return">
             <p>Nie masz konta?</p>
-            <input type="submit" name="redirect" value="Zarejestruj">
+            <input type="submit" name="redirect" value="Zarejestruj" class="przyciski">
         </form>
     </div>
     <?php
@@ -55,7 +58,7 @@ if (isset($_POST['redirect'])) {
                 $_SESSION['uprawnienia'] = "admin";
             } else if ($row['upr'] == "pracownik") {
                 $_SESSION['uprawnienia'] = "pracownik";
-            }
+            } else $_SESSION['uprawnienia'] = "user";
             header("Location: ./index.php");
         }
         mysqli_close($conn);

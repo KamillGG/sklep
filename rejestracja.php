@@ -25,15 +25,18 @@ if (isset($_POST['redirectlog'])) {
 
 <body>
     <div class="login-container">
+        <div class="login-header">
+            <h1>Rejestracja</h1>
+        </div>
         <form method="post">
             <input type="text" placeholder="login" name="login">
             <input type="password" name="password" placeholder="password">
             <input type="password" name="passwordrep" placeholder="repeat password">
-            <input type="submit" value="Zarejestruj">
+            <input type="submit" value="Zarejestruj" class="przyciski">
         </form>
         <form method="post" class="return">
             <p>Masz już konto?</p>
-            <input type="submit" name="redirectlog" value="Zaloguj">
+            <input type="submit" name="redirectlog" value="Zaloguj" class="przyciski">
         </form>
         <?php
         if (isset($_POST['login']) && isset($_POST['password'])) {

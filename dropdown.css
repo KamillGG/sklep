@@ -43,3 +43,52 @@
   #formKosz{
     position: relative;
   }
+  .przyciski {
+    background-color: #28a745; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    width: 200px;
+    font-size: 18px; /* Adjust font size as needed */
+    font-family: Arial, sans-serif; /* Adjust font family as needed */
+  }
+  
+  .przyciski:hover {
+    background-color: white;
+    color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .przyciski::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #28a745;
+    transition: width 0.3s;
+  }
+  
+  .przyciski:hover::after {
+    width: 100%;
+  }
+  .menu{
+    display: flex;
+    flex-direction: row;
+}
+#buttonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: row;
+  width: 100%;
+}

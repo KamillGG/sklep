@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res = mysqli_query($conn, $sq);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if ($row['ilosc'] > $row['ilosc_zamow']) {
+            if ($row['ilosc'] > $row['ilosc_zamow'] && $row['ilosc_zamow'] < 9) {
                 $sql = "UPDATE koszyki SET ilosc_zamow=ilosc_zamow+1 WHERE id_produktu=$_POST[id_prod] AND id_uzytkownicy='$_SESSION[uzytkownik]';";
                 $result = mysqli_query($conn, $sql);
                 unset($_POST['id_prod']);
@@ -38,6 +38,7 @@ function queryReturn()
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="przyciski.css">
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,18 +46,16 @@ function queryReturn()
 </head>
 
 <body>
-    <div id="menu">
-        <div id="buttonContainer">
-            <?php
-            if ($_SESSION['displayMax'] == true) {
-                echo "<div class='popup active'>";
-            } else echo "<div class='popup'>";
-            ?>
-            <p class="popup-text">Limit dodawania tego produktu</p>
-            <a class="popup-link" href="./">Zamknij</a>
-        </div>
+    <?php
+    if ($_SESSION['displayMax'] == true) {
+        echo "<div class='popup active'>";
+    } else echo "<div class='popup'>";
+    ?>
+    <p class="popup-text">Limit dodawania tego produktu</p>
+    <a class="popup-link" href="./">Zamknij</a>
+    </div>
 
-        <?php include 'menu.php' ?>
+    <?php include 'menu.php' ?>
     </div>
     </div>
     <div>
