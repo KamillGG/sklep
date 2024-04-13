@@ -7,32 +7,43 @@ body{
     margin: 0;
     padding: 10px;
 }
-#userPNG{
-    margin-left: auto;
-}
 #dropdownContent{
     display: none;
     position: absolute;
     z-index: 450;
     right: 0;
 }
-  
-  #productsContainer{
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding-top: 20px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-items: stretch;
-  }
+#lowerPart {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  /* Allow #productsContainer to grow to fill available space */
+  flex-grow: 1;
+}
+
+#productsContainer {
+  /* Remove height property to allow it to stretch */
+  height: auto;
+  padding-top: 15px;
+  /* Allow #productsContainer to fill available vertical space */
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  background-color: white;
+  border-radius: 8px;
+}
   .product {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    height: 400px;
   }
   
   .product-title {
@@ -108,4 +119,7 @@ body{
 
 .popup-link:hover {
   background-color: #218838; /* Darker shade of green on hover */
+}
+.menu{
+  grid-area: menu;
 }

@@ -1,34 +1,47 @@
 <?php
 session_start();
+include 'config.php';
 if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "superAdmin") {
     header("Location: ./index.php");
 }
 ?>
 <?php
-
+include 'menu.php'
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="przyciski.css">
-    <link rel="stylesheet" href="select.css">
-    <link rel="stylesheet" href="admin.css">
-    <title>Document</title>
-</head>
-
-<body>
+<div id="panelContainer">
     <?php
-    include 'menu.php'
+    if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['newRole'])) {
+        if (($_SESSION['uprawnienia'] == "admin" && $_POST['newRole'] !== "admin") || $_SESSION['uprawnienia'] == "superAdmin") {
+            $conn = mysqli_connect($host, $user, $pass, $database);
+            $sql = "SELECT login,upr FROM uzytkownicy WHERE login='$_POST[login]'";
+            $result = returnSelect($sql, $conn);
+            $row = mysqli_fetch_assoc($result);
+            if (($row['upr'] !== "admin" && $row['upr'] !== "superAdmin") || $_SESSION['uprawnienia'] !== "admin") {
+                $sql2 = "UPDATE `uzytkownicy` SET `upr`='$_POST[newRole]' WHERE login='$_POST[login]'";
+                echo $sql2;
+                mysqli_query($conn, $sql2);
+                unset($_POST);
+                header("Location: " . $_SERVER['PHP_SELF']);
+            }
+        }
+    }
     ?>
-    <div id="panelContainer">
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="select.css">
+        <link rel="stylesheet" href="admin.css">
+        <title>Document</title>
+    </head>
+
+    <body>
         <div id="usersContainer">
             <?php
-            include 'config.php';
             $conn = mysqli_connect($host, $user, $pass, $database);
-            $sql = "SELECT * FROM uzytkownicy";
+            $sql = "SELECT * FROM uzytkownicy WHERE login!='$_SESSION[uzytkownik]'";
             $result = returnSelect($sql, $conn);
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -51,7 +64,8 @@ if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "superA
                             } else {
                                 $options = ['admin', 'user', 'pracownik'];
                             }
-                            echo "<select class='uprSelect'>";
+                            echo "<form method='post'>";
+                            echo "<select class='uprSelect' name='newRole' onChange=changed('$row[login]')>";
                             foreach ($options as $option) {
                                 if ($row['upr'] !== $option) {
                                     echo "<option>$option</option>";
@@ -60,6 +74,9 @@ if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "superA
                                 }
                             }
                             echo "</select>";
+                            echo "<input type='hidden' value='$row[login]' name='login'>";
+                            echo "<input type='submit' style='display:none' id='sub$row[login]'>";
+                            echo "</form>";
                         }
                     }
                     echo "</div>";
@@ -68,7 +85,12 @@ if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "superA
             }
             ?>
         </div>
-    </div>
+</div>
+<script>
+    function changed(id) {
+        document.getElementById(`sub` + id).click()
+    }
+</script>
 </body>
 
 </html>

@@ -57,7 +57,7 @@ function queryReturn()
     <?php include 'menu.php' ?>
     </div>
     </div>
-    <div>
+    <div id="lowerPart">
         <div id="productsContainer">
             <?php
             $conn = mysqli_connect('localhost', 'root', '', 'sklep');
