@@ -1,0 +1,35 @@
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    width: 50px;
+    color: #333;
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Style the options within the select element */
+option {
+    background-color: white;
+    color: #333;
+}
+
+/* Style the select element when it's focused */
+select:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #007bff; /* Change border color when focused */
+}
+select.uprSelect{
+    width: 250px;
+}
+.uzytkownik{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+select.disabled{
+    cursor: not-allowed;
+}

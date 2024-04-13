@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "pracownik") {
+if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "pracownik" && $_SESSION['uprawnienia'] !== "superAdmin") {
     header("Location: index.php");
 }
 ?>
@@ -39,7 +39,7 @@ if (!empty($_POST['nazwa']) && !empty($_POST['opis']) && !empty($_POST['cena']))
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             $conn = mysqli_connect('localhost', 'root', '', 'sklep');
             $sql = "INSERT INTO produkty(nazwa, opis,cena, ilosc, FilePath) VALUES ('$name','$opis','$cena','$ilosc','$target_file')";
-            if(mysqli_query($conn, $sql)){
+            if (mysqli_query($conn, $sql)) {
                 "Dodano";
             }
             mysqli_close($conn);
@@ -60,19 +60,19 @@ if (!empty($_POST['nazwa']) && !empty($_POST['opis']) && !empty($_POST['cena']))
 
 <body>
     <div class="add-container">
-    
-    <form method="post" enctype="multipart/form-data">
-        <input type="text" placeholder="Nazwa Produktu" name="nazwa">
-        <input type="text" placeholder="Opis Produktu" name="opis" id="opis">
-        <input type="number" placeholder="Cena Produktu" step="0.01" name="cena">
-        <input type="number" name="Ilosc Produktu" placeholder="ilosc">
-        <label for="image" class="file-label">Wybierz zdjecie Produktu</label>
-        <input type="file" placeholder="zdjecie" name="image" id="image">
-        <input type="submit" value="Zatwierdź">
-    </form>
-    <form action="index.php">
-    <input type="submit" value="Powrót">
-    </form>
+
+        <form method="post" enctype="multipart/form-data">
+            <input type="text" placeholder="Nazwa Produktu" name="nazwa">
+            <input type="text" placeholder="Opis Produktu" name="opis" id="opis">
+            <input type="number" placeholder="Cena Produktu" step="0.01" name="cena" min="0.01">
+            <input type="number" name="Ilosc Produktu" placeholder="ilosc" min="0">
+            <label for="image" class="file-label">Wybierz zdjecie Produktu</label>
+            <input type="file" placeholder="zdjecie" name="image" id="image">
+            <input type="submit" value="Zatwierdź" class="przyciski">
+        </form>
+        <form action="index.php">
+            <input type="submit" value="Powrót" class="przyciski">
+        </form>
     </div>
 </body>
 

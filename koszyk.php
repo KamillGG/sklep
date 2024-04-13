@@ -25,6 +25,7 @@ if (isset($_POST['delID']) && $_POST['delID'] !== "") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="koszyk.css">
+    <link rel="stylesheet" href="select.css">
     <title>Document</title>
 </head>
 

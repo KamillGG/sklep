@@ -17,27 +17,51 @@ body {
     width: 300px;
     text-align: center;
   }
-  .add-container input[type="submit"] {
-    background-color: #28a745;
-    color: #fff;
+  .przyciski {
+    background-color: #28a745; /* Green */
     border: none;
-    padding: 10px 20px;
-    margin: 5px 0;
-    width: 50%;
-    border-radius: 5px;
+    color: white;
+    padding: 13px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
     cursor: pointer;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    width: calc(100% - 20px);
+    font-size: 18px; /* Adjust font size as needed */
+    font-family: Arial, sans-serif; /* Adjust font family as needed */
   }
-
-  .add-container input[type="submit"]:hover {
-    background-color: #218838;
+  
+  .przyciski:hover {
+    background-color: white;
+    color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .przyciski::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #28a745;
+    transition: width 0.3s;
+  }
+  
+  .przyciski:hover::after {
+    width: 100%;
   }
   .add-container input[type="text"],
 .add-container input[type="number"],
 .add-container input[type="file"],
 .add-container label.file-label {
     width: calc(100% - 20px);
-    padding: 10px;
+    padding: 13px 32px;
     margin: 10px 0;
+    font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
@@ -59,4 +83,9 @@ body {
 }
 #opis{
     word-wrap: break-word;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

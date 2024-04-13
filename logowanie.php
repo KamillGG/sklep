@@ -56,6 +56,8 @@ if (isset($_POST['redirect'])) {
             $_SESSION['zalogowano'] = "tak";
             if ($row['upr'] == "admin") {
                 $_SESSION['uprawnienia'] = "admin";
+            } else if ($row['upr'] == "superAdmin") {
+                $_SESSION['uprawnienia'] = "superAdmin";
             } else if ($row['upr'] == "pracownik") {
                 $_SESSION['uprawnienia'] = "pracownik";
             } else $_SESSION['uprawnienia'] = "user";

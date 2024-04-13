@@ -14,7 +14,7 @@
             <a class='przyciski' href='./koszyk.php'>Koszyk</a>
         </div>
         <?php
-        if ($_SESSION['uprawnienia'] == "admin") {
+        if ($_SESSION['uprawnienia'] == "admin" || $_SESSION['uprawnienia'] == "superAdmin") {
             echo "<a class='przyciski' href='./dodawanie.php'>Dodaj Produkt</a>";
             if ($_SERVER['PHP_SELF'] === "/sklep/index.php") {
                 echo "<a class='przyciski' href='./admin.php'>Panel administratora</a>";

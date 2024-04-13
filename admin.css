@@ -2,13 +2,31 @@ body{
     background-color: #f2f2f2;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 10vh 90vh;
+    grid-template-rows: calc(10vh - 10px) calc(90vh - 10px);
     grid-template-areas: "menu" "main";
     background-color: #f2f2f2;
     margin: 0;
+    padding: 10px;
 }
 #usersContainer{
-    background-color: white;
     width: 20%;
-    height: 100%;
+    background-color: #ffffff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    padding: 20px; /* Padding inside the tile */
+    display: flex;
+    flex-direction: column;
 }
+#panelContainer{
+    grid-area: main;
+    display: flex;
+    flex-direction: row;
+}
+.menu{
+    grid-area: menu;
+}
+.line {
+    border: none; /* Remove default border styles */
+    border-top: 1px solid #ccc; /* Add a horizontal line */
+    margin: 20px 0; /* Add margin for spacing */
+  }
