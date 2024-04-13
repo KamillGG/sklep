@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2024 at 06:37 PM
+-- Generation Time: Apr 13, 2024 at 06:17 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -20,6 +20,16 @@ SET time_zone = "+00:00";
 --
 -- Database: `sklep`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `blacklist`
+--
+
+CREATE TABLE `blacklist` (
+  `login` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -41,7 +51,7 @@ CREATE TABLE `koszyki` (
 
 INSERT INTO `koszyki` (`id_zamowienia`, `id_produktu`, `id_uzytkownicy`, `ilosc_zamow`, `dokonano`) VALUES
 (3, 3, 'user', 1, 0),
-(9, 5, 'admin', 3, 0),
+(9, 5, 'admin', 5, 0),
 (11, 5, 'user', 1, 0);
 
 -- --------------------------------------------------------
@@ -89,7 +99,7 @@ CREATE TABLE `uzytkownicy` (
 INSERT INTO `uzytkownicy` (`login`, `password`, `upr`) VALUES
 ('admin', '21232f297a57a5a743894a0e4a801fc3', 'admin'),
 ('awdaw', '098f6bcd4621d373cade4e832627b4f6', 'user'),
-('newUser', '098f6bcd4621d373cade4e832627b4f6', 'user'),
+('newUser', '098f6bcd4621d373cade4e832627b4f6', 'admin'),
 ('user', 'ee11cbb19052e40b07aac0ca060c23ee', 'user');
 
 --

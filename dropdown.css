@@ -83,7 +83,8 @@
   .menu{
     display: flex;
     flex-direction: row;
-    
+    background-color: white;
+    border-radius: 8px;
 }
 #buttonContainer{
   display: flex;

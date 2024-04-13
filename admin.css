@@ -21,6 +21,7 @@ body{
     grid-area: main;
     display: flex;
     flex-direction: row;
+    padding-top: 10px;
 }
 .menu{
     grid-area: menu;
