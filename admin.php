@@ -5,39 +5,41 @@ if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "superA
     header("Location: ./index.php");
 }
 ?>
+
+
 <?php
-include 'menu.php'
-?>
-<div id="panelContainer">
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['newRole'])) {
-        if (($_SESSION['uprawnienia'] == "admin" && $_POST['newRole'] !== "admin") || $_SESSION['uprawnienia'] == "superAdmin") {
-            $conn = mysqli_connect($host, $user, $pass, $database);
-            $sql = "SELECT login,upr FROM uzytkownicy WHERE login='$_POST[login]'";
-            $result = returnSelect($sql, $conn);
-            $row = mysqli_fetch_assoc($result);
-            if (($row['upr'] !== "admin" && $row['upr'] !== "superAdmin") || $_SESSION['uprawnienia'] !== "admin") {
-                $sql2 = "UPDATE `uzytkownicy` SET `upr`='$_POST[newRole]' WHERE login='$_POST[login]'";
-                echo $sql2;
-                mysqli_query($conn, $sql2);
-                unset($_POST);
-                header("Location: " . $_SERVER['PHP_SELF']);
-            }
+if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['newRole'])) {
+    if (($_SESSION['uprawnienia'] == "admin" && $_POST['newRole'] !== "admin") || $_SESSION['uprawnienia'] == "superAdmin") {
+        $conn = mysqli_connect($host, $user, $pass, $database);
+        $sql = "SELECT login,upr FROM uzytkownicy WHERE login='$_POST[login]'";
+        $result = returnSelect($sql, $conn);
+        $row = mysqli_fetch_assoc($result);
+        if (($row['upr'] !== "admin" && $row['upr'] !== "superAdmin") || $_SESSION['uprawnienia'] !== "admin") {
+            $sql2 = "UPDATE `uzytkownicy` SET `upr`='$_POST[newRole]' WHERE login='$_POST[login]'";
+            echo $sql2;
+            mysqli_query($conn, $sql2);
+            unset($_POST);
+            header("Location: " . $_SERVER['PHP_SELF']);
         }
     }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="select.css">
+    <link rel="stylesheet" href="admin.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <?php
+    include 'menu.php'
     ?>
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="select.css">
-        <link rel="stylesheet" href="admin.css">
-        <title>Document</title>
-    </head>
-
-    <body>
+    <div id="panelContainer">
         <div id="usersContainer">
             <?php
             $conn = mysqli_connect($host, $user, $pass, $database);
@@ -85,12 +87,12 @@ include 'menu.php'
             }
             ?>
         </div>
-</div>
-<script>
-    function changed(id) {
-        document.getElementById(`sub` + id).click()
-    }
-</script>
+    </div>
+    <script>
+        function changed(id) {
+            document.getElementById(`sub` + id).click()
+        }
+    </script>
 </body>
 
 </html>
