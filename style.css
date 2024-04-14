@@ -43,6 +43,7 @@ body{
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: rgba(0, 0, 0, 0.5) solid 1px;
     height: 400px;
   }
   
@@ -71,21 +72,6 @@ body{
     font-size: 18px;
     margin: 0;
   }
-#header {
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  padding-bottom: 2px;
-}
-
-#header::before, #header::after {
-  flex: 1;
-  content: '';
-  padding: 1px;
-  background-color: #28a745;
-  border-radius: 2px;
-  margin: 5px;
-}
 .popup {
   display: none;
   position: fixed;
@@ -122,4 +108,40 @@ body{
 }
 .menu{
   grid-area: menu;
+}
+.przyciski {
+  background-color: #28a745; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  width: 150px;/* Adjust font size as needed */
+  height: 19;
+  font-family: Arial, sans-serif; /* Adjust font family as needed */
+}
+
+.przyciski:hover {
+  background-color: white;
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.przyciski::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #28a745;
+  transition: width 0.3s;
+}
+
+.przyciski:hover::after {
+  width: 100%;
 }

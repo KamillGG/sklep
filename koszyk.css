@@ -27,18 +27,6 @@ body {
     justify-content: space-between;
     align-items: center;
   }
-  /* .products input[type="submit"] {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .products input[type="submit"]:hover {
-    background-color: #218838;
-  } */
   .product .deleteButton{
     width: 150px;
   }

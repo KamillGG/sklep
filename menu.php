@@ -15,13 +15,13 @@
         </div>
         <?php
         if ($_SESSION['uprawnienia'] == "admin" || $_SESSION['uprawnienia'] == "superAdmin") {
-            echo "<a class='przyciski' href='./dodawanie.php'>Dodaj Produkt</a>";
+            echo "<a class='przyciski' href='./manage.php'>Zarządzaj Produktami</a>";
             if ($_SERVER['PHP_SELF'] === "/sklep/index.php") {
                 echo "<a class='przyciski' href='./admin.php'>Panel administratora</a>";
             } else echo "<a class='przyciski' href='./'>Strona Główna</a>";
         }
         if ($_SESSION['uprawnienia'] == "pracownik") {
-            echo "<a class='przyciski' href='./dodawanie.php'>Dodaj Produkt></a>";
+            echo "<a class='przyciski' href='./manage.php'>Zarządzaj Produktami</a>";
         }
         ?>
         <div class="dropdown">
