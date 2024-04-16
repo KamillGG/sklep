@@ -46,10 +46,12 @@ if (isset($_POST['redirect'])) {
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
+        $sql = mysqli_prepare($conn, "SELECT * FROM uzytkownicy WHERE login=? AND password=?;");
+        mysqli_stmt_bind_param($sql, "ss", $login, $password);
         $login = $_POST['login'];
         $password = md5($_POST['password']);
-        $sql = "SELECT * FROM uzytkownicy WHERE login='$login' AND password='$password';";
-        $result = mysqli_query($conn, $sql);
+        mysqli_stmt_execute($sql);
+        $result = mysqli_stmt_get_result($sql);
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $_SESSION['uzytkownik'] = $login;

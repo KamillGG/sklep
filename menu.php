@@ -16,12 +16,14 @@
         <?php
         if ($_SESSION['uprawnienia'] == "admin" || $_SESSION['uprawnienia'] == "superAdmin") {
             echo "<a class='przyciski' href='./manage.php'>Zarządzaj Produktami</a>";
-            if ($_SERVER['PHP_SELF'] === "/sklep/index.php") {
+            if (basename($_SERVER['PHP_SELF']) === "index.php") {
                 echo "<a class='przyciski' href='./admin.php'>Panel administratora</a>";
             } else echo "<a class='przyciski' href='./'>Strona Główna</a>";
         }
         if ($_SESSION['uprawnienia'] == "pracownik") {
-            echo "<a class='przyciski' href='./manage.php'>Zarządzaj Produktami</a>";
+            if (basename($_SERVER['PHP_SELF']) === "index.php") {
+                echo "<a class='przyciski' href='./manage.php'>Zarządzaj Produktami</a>";
+            } else echo "<a class='przyciski' href='./'>Strona Główna</a>";
         }
         ?>
         <div class="dropdown">

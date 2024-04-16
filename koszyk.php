@@ -34,8 +34,10 @@ if (isset($_POST['delID']) && $_POST['delID'] !== "") {
 
         <?php
         $conn = mysqli_connect('localhost', 'root', '', 'sklep');
-        $sql = "SELECT * FROM `koszyki`,produkty WHERE produkty.id=koszyki.id_produktu AND id_uzytkownicy='$_SESSION[uzytkownik]';";
-        $result = mysqli_query($conn, $sql);
+        $sql = mysqli_prepare($conn, "SELECT * FROM `koszyki`,produkty WHERE produkty.id=koszyki.id_produktu AND id_uzytkownicy=?;");
+        mysqli_stmt_bind_param($sql, "s", $_SESSION['uzytkownik']);
+        mysqli_stmt_execute($sql);
+        $result = mysqli_stmt_get_result($sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<div class='product'>";
@@ -59,7 +61,9 @@ if (isset($_POST['delID']) && $_POST['delID'] !== "") {
                 echo "</form>";
                 echo "</div>";
                 echo "<div class='prod'>";
-                echo "<h3>$row[cena]zł</h3>";
+                $calc = $row['cena'] * $row['ilosc_zamow'];
+                $formCalc = sprintf("%.2f", $calc);
+                echo "<h3>" . $formCalc . "zł</h3>";
                 echo "</div>";
                 echo "<form class='prod' method='post'>";
                 echo "<input type='hidden' value='$row[id_zamowienia]' name='delID'>";
@@ -73,7 +77,32 @@ if (isset($_POST['delID']) && $_POST['delID'] !== "") {
             echo "<h1>Pusto...</h1>";
         }
         ?>
-        <a href="index.php" class="przyciski powrot">Powrót</a>
+        <div style="display: flex; justify-content:end;">
+            <?php
+            $sql2 = mysqli_prepare($conn, "SELECT SUM(cena*ilosc_zamow) AS lacznie FROM koszyki,produkty WHERE produkty.id = koszyki.id_produktu AND id_uzytkownicy=?");
+            mysqli_stmt_bind_param($sql2, "s", $_SESSION['uzytkownik']);
+            mysqli_stmt_execute($sql2);
+            $result2 = mysqli_stmt_get_result($sql2);
+            $row2 = mysqli_fetch_assoc($result2);
+            if (mysqli_num_rows($result) > 0) {
+
+                echo "<h1>Łącznie: " . $row2['lacznie'] . "zł</h1>";
+            }
+            mysqli_close($conn);
+            ?>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content:center;">
+            <?php
+            if (mysqli_num_rows($result) > 0) {
+                echo "<form action='zakup.php' method='post'>";
+                echo "<input type='submit' class='przyciski powrot' value='Kup'>";
+                echo "</form>";
+            }
+            ?>
+            <form action="index.php" method="post">
+                <input type="submit" class="przyciski powrot" value="Powrót">
+            </form>
+        </div>
     </div>
     <script>
         function simSub(id) {

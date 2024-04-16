@@ -48,10 +48,12 @@ if (isset($_POST['redirectlog'])) {
                     }
                     $login = $_POST['login'];
                     $password = md5($_POST['password']);
-                    $sql = "INSERT INTO uzytkownicy(login, password, upr) values ('$login', '$password','user');";
+                    $sql = mysqli_prepare($conn, "INSERT INTO uzytkownicy(login, password, upr) values (?, ?,'user');");
+                    mysqli_stmt_bind_param($sql, "ss", $login, $password);
+
                     try {
                         // Execute the query
-                        if (mysqli_query($conn, $sql)) {
+                        if (mysqli_stmt_execute($sql)) {
                             header("Location: ./logowanie.php");
                         } else {
                             throw new Exception('Error executing query: ' . mysqli_error($conn));

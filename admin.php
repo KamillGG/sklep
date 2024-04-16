@@ -24,6 +24,41 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['newRole'])) {
     }
 }
 ?>
+<?php $conn = mysqli_connect($host, $user, $pass, $database);
+$sqlData = "SELECT SUM(cena_sum) as 'sales',MONTH(data) as 'month' FROM statystyki GROUP BY MONTH(data)";
+$chartDataResult = mysqli_query($conn, $sqlData);
+
+$chartData = []; // Initialize an empty array to store the data
+
+// Fetch the data from the MySQL result object
+while ($row = mysqli_fetch_assoc($chartDataResult)) {
+    $chartData[] = $row; // Add each row to the array
+}
+
+$chartDataJson = json_encode($chartData);
+$sqlData2 = "SELECT nazwa,SUM(cena*statystyki_zakup.ilosc) as zysk FROM `statystyki_zakup` JOIN produkty ON produkty.id=statystyki_zakup.id_produktu GROUP BY id_produktu";
+$chartDataResult2 = mysqli_query($conn, $sqlData2);
+
+$chartData2 = []; // Initialize an empty array to store the data
+
+// Fetch the data from the MySQL result object
+while ($row2 = mysqli_fetch_assoc($chartDataResult2)) {
+    $chartData2[] = $row2; // Add each row to the array
+}
+
+$chartDataJson2 = json_encode($chartData2);
+$sqlData3 = "SELECT SUM(cena_sum) as 'sales',MONTH(data) as 'month' FROM statystyki GROUP BY MONTH(data)";
+$chartDataResult3 = mysqli_query($conn, $sqlData3);
+
+$chartData3 = []; // Initialize an empty array to store the data
+
+// Fetch the data from the MySQL result object
+while ($row3 = mysqli_fetch_assoc($chartDataResult3)) {
+    $chartData3[] = $row3; // Add each row to the array
+}
+
+$chartDataJson3 = json_encode($chartData3);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['newRole'])) {
     <div id="panelContainer">
         <div id="usersContainer">
             <?php
-            $conn = mysqli_connect($host, $user, $pass, $database);
             $sql = "SELECT * FROM uzytkownicy WHERE login!='$_SESSION[uzytkownik]'";
             $result = returnSelect($sql, $conn);
             if (mysqli_num_rows($result) > 0) {
@@ -87,8 +121,127 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['newRole'])) {
             }
             ?>
         </div>
+        <div id="chartContainer">
+            <div id="options">
+                <div id="Total" class="optionsC">
+                    <div class="header">
+                        <h1>Przychód:</h1>
+                    </div>
+                    <p>W tym miesiącu:
+                        <?php
+                        $sql = "SELECT SUM(cena_sum) as cena FROM statystyki WHERE MONTH(data)=MONTH(CURRENT_TIME())";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        echo $row['cena'] . "zł"
+                        ?>
+                    </p>
+                </div>
+                <div id="products" class="optionsC">
+                    <div class="header exception">
+                        <h1>Sprzedaż produktow</h1>
+                    </div>
+                </div>
+                <div id="pracownicy" class="optionsC">
+                    <div class="header">
+                        <h1>Pracownicy:</h1>
+                    </div>
+                    <p>Aktualna ilość pracowników:
+                        <?php
+                        $sql = "SELECT COUNT(*) as ilosc FROM uzytkownicy WHERE upr='pracownik'";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        echo $row['ilosc']
+                        ?>
+                    </p>
+                </div>
+            </div>
+            <div id="chart">
+                <canvas id="myChart" style="width:100%; max-width:80vw; max-height:70vh;"></canvas>
+            </div>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        var chartData = <?php echo $chartDataJson; ?>;
+        var chartData2 = <?php echo $chartDataJson2; ?>;
+        var chartData3 = <?php echo $chartDataJson3; ?>;
+        console.log(chartData, chartData2, chartData3)
+        var sales = chartData.map(item => item.sales);
+        var labele = chartData.map(item => item.month);
+        var myChart = new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: labele,
+                font: {
+                    size: '50px'
+                },
+                datasets: [{
+                    fill: false,
+                    pointRadius: 4,
+                    borderColor: "#28a745",
+                    data: sales
+                }]
+            },
+            options: {
+                color: "blue",
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Przychód według miesiaca",
+                        font: {
+                            size: 30
+                        }
+                    },
+                    tooltip: {
+                        intersect: false, // Display tooltips at the same x-axis width point
+                        mode: 'index', // Show a single tooltip for each dataset at the same index
+                    },
+                    legend: {
+                        display: false,
+                    },
+
+
+                }
+            },
+        });
+        document.getElementById('Total').addEventListener('click', () => {
+            total()
+        })
+        document.getElementById('products').addEventListener('click', () => {
+            product()
+        })
+        document.getElementById('pracownicy').addEventListener('click', () => {
+            worker()
+        })
+
+        function total() {
+            sales = chartData.map(item => item.sales);
+            labele = chartData.map(item => item.month);
+            myChart.data.labels = labele;
+            myChart.data.datasets[0].data = sales;
+            myChart.config.type = 'line';
+            myChart.data.datasets[0].backgroundColor = 'transparent'
+            myChart.options.plugins.title.text = 'Przychód według miesiaca'
+            myChart.update()
+        }
+
+        function product() {
+            sales = chartData2.map(item => item.zysk);
+            labele = chartData2.map(item => item.nazwa);
+            myChart.data.labels = labele;
+            myChart.data.datasets[0].data = sales;
+            myChart.config.type = 'bar';
+            myChart.data.datasets[0].backgroundColor = '#42b15b'
+            myChart.options.plugins.title.text = 'Sprzedaż według produktu'
+            myChart.update()
+        }
+
+        function worker() {
+            sales = chartData3.map(item => item.sales);
+            labele = chartData3.map(item => item.month);
+            console.log(3)
+        }
+
         function changed(id) {
             document.getElementById(`sub` + id).click()
         }
