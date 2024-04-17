@@ -51,6 +51,7 @@ body{
     display: flex;
     flex-direction: row;
     gap: 50px;
+    align-items: center;
 }
 .przyciski.notAllowed{
     background-color: #ccc; /* Grey */

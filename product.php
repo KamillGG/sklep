@@ -40,7 +40,12 @@ if (mysqli_num_rows($result1) <= 0) {
     <div id="lowerPart">
         <div id="productContainer">
             <h2 id="nazwa"><?php echo $row['nazwa'] ?></h2>
-            <img src="<?php echo $row['FilePath'] ?>">
+            <img src="
+            <?php
+            if (file_exists('./' . $row['FilePath'])) {
+                echo $row['FilePath'];
+            } else echo $defaultPath;
+            ?>">
             <h3 id="cena"><?php echo $row['cena'] ?>zł</h3>
             <p id="opis">Opis: <?php echo $row['opis'] ?></p>
             <?php

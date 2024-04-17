@@ -5,6 +5,7 @@ if ($_SESSION['zalogowano'] !== "tak") {
     exit;
 }
 $_SESSION['displayMax'] = false;
+include 'config.php'
 ?>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -69,7 +70,9 @@ function queryReturn()
                     echo "<div class='product' onclick=redirectUser('$url')>";
                     echo "<h2 class='product-title'>$row[nazwa]</h2>";
                     echo "<div class='zdjCont'>";
-                    echo "<img class='prodZdj' src='./$row[FilePath]'/>";
+                    if (file_exists('./' . $row['FilePath'])) {
+                        echo "<img class='prodZdj' src='./$row[FilePath]'/>";
+                    } else echo "<img class='prodZdj' src='$defaultPath'/>";
                     echo "</div>";
                     echo "<p class='product-price'>$row[cena]zł</p>";
                     if ($row['ilosc'] > 10) echo "<p class='product-quantity' style='Color:green'>Produkt Dostępny</p>";

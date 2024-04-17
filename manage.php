@@ -34,7 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<div class='product'>";
                     echo "<div class='left'>";
-                    echo "<img src='$row[FilePath]' width='50px' height='50px'>";
+                    if (file_exists('./' . $row['FilePath'])) {
+                        echo "<img class='prodZdj' src='./$row[FilePath]'  width='50px' height='50px' />";
+                    } else echo "<img class='prodZdj' src='$defaultPath'  width='50px' height='50px' />";
                     echo "<h2>$row[nazwa]</h2>";
                     echo "</div>";
                     echo "<div class='right'>";

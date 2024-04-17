@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'config.php'
 ?>
 <?php
 if (isset($_POST['delID']) && $_POST['delID'] !== "") {
@@ -42,7 +43,9 @@ if (isset($_POST['delID']) && $_POST['delID'] !== "") {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<div class='product'>";
                 echo "<div class='photoName'>";
-                echo "<img src='$row[FilePath]' width='50px' height='50px' >";
+                if (file_exists('./' . $row['FilePath'])) {
+                    echo "<img class='prodZdj' src='./$row[FilePath]'  width='50px' height='50px' />";
+                } else echo "<img class='prodZdj' src='$defaultPath'  width='50px' height='50px' />";
                 echo "<h3>$row[nazwa]</h3>";
                 echo "</div>";
                 echo "<div class='actions'>";
