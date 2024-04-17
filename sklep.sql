@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2024 at 06:17 PM
+-- Generation Time: Apr 17, 2024 at 07:18 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -24,16 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `blacklist`
---
-
-CREATE TABLE `blacklist` (
-  `login` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabeli dla tabeli `koszyki`
 --
 
@@ -50,9 +40,7 @@ CREATE TABLE `koszyki` (
 --
 
 INSERT INTO `koszyki` (`id_zamowienia`, `id_produktu`, `id_uzytkownicy`, `ilosc_zamow`, `dokonano`) VALUES
-(3, 3, 'user', 1, 0),
-(9, 5, 'admin', 5, 0),
-(11, 5, 'user', 1, 0);
+(3, 1, 'admin', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -74,11 +62,50 @@ CREATE TABLE `produkty` (
 --
 
 INSERT INTO `produkty` (`id`, `nazwa`, `cena`, `ilosc`, `opis`, `FilePath`) VALUES
-(2, 'nowy', 1.20, 0, 'paczryk', 'uploads/660e63435b33d_pobrane (1).jpg'),
-(3, 'sigma', 200.00, 1, 'sigma', 'uploads/660e642794ff3_sigma.jpg'),
-(4, 'tescior', 2.00, 30, 'TRENowanie', 'uploads/660ea23eab848_pobrane (1).jpg'),
-(5, 'nowy', 1.20, 20, 'wadas', 'uploads/660ea645e73f3_sigma.jpg'),
-(6, 'maciek', 0.02, 1, 'niewolnik maly', 'uploads/660eab4b3f04d_sigma.jpg');
+(1, 'test', 21.37, 161, 'testowy opis', 'uploads/66200376537bd_default.png'),
+(2, 'wad', 12.00, 12, 'wada', 'uploads/default.png'),
+(3, 'nazwa', 123.00, 0, 'opis', 'uploads/66200409d8df8_6405_pokerface.png');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `statystyki`
+--
+
+CREATE TABLE `statystyki` (
+  `id` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `cena_sum` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `statystyki`
+--
+
+INSERT INTO `statystyki` (`id`, `data`, `cena_sum`) VALUES
+(1, '2024-04-17', 21.37),
+(2, '2024-04-17', 85.48);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `statystyki_zakup`
+--
+
+CREATE TABLE `statystyki_zakup` (
+  `id` int(11) NOT NULL,
+  `id_zakupu` int(11) NOT NULL,
+  `id_produktu` int(11) NOT NULL,
+  `ilosc` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `statystyki_zakup`
+--
+
+INSERT INTO `statystyki_zakup` (`id`, `id_zakupu`, `id_produktu`, `ilosc`) VALUES
+(1, 1, 1, 1),
+(2, 2, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -97,10 +124,8 @@ CREATE TABLE `uzytkownicy` (
 --
 
 INSERT INTO `uzytkownicy` (`login`, `password`, `upr`) VALUES
-('admin', '21232f297a57a5a743894a0e4a801fc3', 'admin'),
-('awdaw', '098f6bcd4621d373cade4e832627b4f6', 'user'),
-('newUser', '098f6bcd4621d373cade4e832627b4f6', 'admin'),
-('user', 'ee11cbb19052e40b07aac0ca060c23ee', 'user');
+('admin', '21232f297a57a5a743894a0e4a801fc3', 'superAdmin'),
+('user', 'ee11cbb19052e40b07aac0ca060c23ee', 'pracownik');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -119,6 +144,18 @@ ALTER TABLE `produkty`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeksy dla tabeli `statystyki`
+--
+ALTER TABLE `statystyki`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `statystyki_zakup`
+--
+ALTER TABLE `statystyki_zakup`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeksy dla tabeli `uzytkownicy`
 --
 ALTER TABLE `uzytkownicy`
@@ -132,13 +169,25 @@ ALTER TABLE `uzytkownicy`
 -- AUTO_INCREMENT for table `koszyki`
 --
 ALTER TABLE `koszyki`
-  MODIFY `id_zamowienia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_zamowienia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `produkty`
 --
 ALTER TABLE `produkty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `statystyki`
+--
+ALTER TABLE `statystyki`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `statystyki_zakup`
+--
+ALTER TABLE `statystyki_zakup`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

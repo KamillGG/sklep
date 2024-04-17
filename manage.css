@@ -42,9 +42,7 @@ body{
 }
 .menu{
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    width: calc(100% - 20px);
     background-color: #f0f0f0;
     z-index: 100;
     height: calc(10vh - 10px)

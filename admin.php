@@ -144,11 +144,11 @@ $chartDataJson3 = json_encode($chartData3);
                 </div>
                 <div id="pracownicy" class="optionsC">
                     <div class="header">
-                        <h1>Pracownicy:</h1>
+                        <h1>Uzytkownicy</h1>
                     </div>
-                    <p>Aktualna ilość pracowników:
+                    <p>Ilosc Uzytkownikow:
                         <?php
-                        $sql = "SELECT COUNT(*) as ilosc FROM uzytkownicy WHERE upr='pracownik'";
+                        $sql = "SELECT COUNT(*) as ilosc FROM uzytkownicy";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         echo $row['ilosc']
@@ -175,6 +175,16 @@ $chartDataJson3 = json_encode($chartData3);
             '#bcbd22', // yellow-green
             '#17becf' // cyan
         ];
+        const months = [
+            "January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"
+        ];
+
+        function numberToMonth(number) {
+            // Subtract 1 from the number because array indices start from 0
+            return months[number - 1];
+        }
+
         var chartData = <?php echo $chartDataJson; ?>;
         var chartData2 = <?php echo $chartDataJson2; ?>;
         var chartData3 = <?php echo $chartDataJson3; ?>;
@@ -188,7 +198,7 @@ $chartDataJson3 = json_encode($chartData3);
         });
         console.log(chartData, chartData2, chartData3)
         var sales = chartData.map(item => item.sales);
-        var labele = chartData.map(item => item.month);
+        labele = chartData.map(item => numberToMonth(item.month));
         var myChart = new Chart("myChart", {
             type: "line",
             data: {
@@ -240,7 +250,7 @@ $chartDataJson3 = json_encode($chartData3);
 
         function total() {
             sales = chartData.map(item => item.sales);
-            labele = chartData.map(item => item.month);
+            labele = chartData.map(item => numberToMonth(item.month));
             myChart.data.labels = labele;
             myChart.data.datasets[0].data = sales;
             myChart.config.type = 'line';

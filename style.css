@@ -46,6 +46,7 @@ body{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     border: rgba(0, 0, 0, 0.5) solid 1px;
     height: 400px;
+    cursor: pointer;
   }
   
   .product-title {
@@ -61,6 +62,7 @@ body{
     aspect-ratio: 1/1;
     display: block;
     margin-bottom: 10px;
+    border: rgba(0, 0, 0, 0.5) solid 1px;
   }
   
   .product-info {

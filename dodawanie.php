@@ -5,46 +5,55 @@ if ($_SESSION['uprawnienia'] !== "admin" && $_SESSION['uprawnienia'] !== "pracow
 }
 ?>
 <?php
-if (!empty($_POST['nazwa']) && !empty($_POST['opis']) && !empty($_POST['cena'])) {
+if (!empty($_POST['nazwa']) && !empty($_POST['opis']) && !empty($_POST['cena'] && !empty($_POST['ilosc']))) {
     $name = $_POST['nazwa'];
     $opis = $_POST['opis'];
     $cena = $_POST['cena'];
     $ilosc = $_POST['ilosc'];
     $target_dir = "uploads/";
-    $unique_filename = uniqid() . '_' . basename($_FILES['image']['name']);
-    $target_file = $target_dir . $unique_filename;
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $check = getimagesize($_FILES["image"]["tmp_name"]);
-    if ($check !== false) {
+    if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
+        $unique_filename = uniqid() . '_' . basename($_FILES['image']['name']);
+        $target_file = $target_dir . $unique_filename;
         $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-    if ($_FILES["image"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-    if (
-        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif"
-    ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-    } else {
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            $conn = mysqli_connect('localhost', 'root', '', 'sklep');
-            $sql = "INSERT INTO produkty(nazwa, opis,cena, ilosc, FilePath) VALUES ('$name','$opis','$cena','$ilosc','$target_file')";
-            if (mysqli_query($conn, $sql)) {
-                "Dodano";
-            }
-            mysqli_close($conn);
-            header("Location: ./index.php");
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($_FILES["image"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
         }
+        if ($_FILES["image"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+        if (
+            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif"
+        ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+        } else {
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                $conn = mysqli_connect('localhost', 'root', '', 'sklep');
+                $sql = mysqli_prepare($conn, "INSERT INTO produkty(nazwa, opis,cena, ilosc, FilePath) VALUES (?,?,?,?,?)");
+                mysqli_stmt_bind_param($sql, "ssdis", $name, $opis, $cena, $ilosc, $target_file);
+                mysqli_stmt_execute($sql);
+                mysqli_close($conn);
+                header("Location: ./index.php");
+            }
+        }
+    } else {
+        $conn = mysqli_connect('localhost', 'root', '', 'sklep');
+        $target = $target_dir . 'default.png';
+        $sql = mysqli_prepare($conn, "INSERT INTO produkty(nazwa, opis,cena, ilosc, FilePath) VALUES (?,?,?,?,?)");
+        mysqli_stmt_bind_param($sql, "ssdis", $name, $opis, $cena, $ilosc, $target_file);
+        mysqli_stmt_execute($sql);
+        mysqli_close($conn);
+        header("Location: ./index.php");
     }
 }
 ?>

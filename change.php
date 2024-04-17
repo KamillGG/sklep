@@ -56,10 +56,9 @@ if ($_SESSION['uzytkownik'] == "user" || $_SERVER['REQUEST_METHOD'] !== 'POST') 
                 if (file_exists($rowCheck['FilePath'])) {
                     unlink($rowCheck['FilePath']);
                 }
-                $sql = "UPDATE `produkty` SET `nazwa`='$name',`cena`='$cena',`ilosc`='$ilosc',`opis`='$opis',`FilePath`='$target_file' WHERE id='$_POST[id]'";
-                if (mysqli_query($conn, $sql)) {
-                    "Dodano";
-                }
+                $sql = mysqli_prepare($conn, "UPDATE `produkty` SET `nazwa`=?,`cena`=?,`ilosc`=?,`opis`=?,`FilePath`=? WHERE id=$_POST[id]");
+                mysqli_stmt_bind_param($sql, "sdiss", $name, $cena, $ilosc, $opis, $target_file);
+                mysqli_stmt_execute($sql);
                 mysqli_close($conn);
                 header("Location: ./index.php");
             }
@@ -69,11 +68,10 @@ if ($_SESSION['uzytkownik'] == "user" || $_SERVER['REQUEST_METHOD'] !== 'POST') 
         $opis = $_POST['opis'];
         $cena = $_POST['cena'];
         $ilosc = $_POST['ilosc'];
-        $sql = "UPDATE `produkty` SET `nazwa`='$name',`cena`='$cena',`ilosc`='$ilosc',`opis`='$opis' WHERE id='$_POST[id]'";
         $conn = mysqli_connect('localhost', 'root', '', 'sklep');
-        if (mysqli_query($conn, $sql)) {
-            "Dodano";
-        }
+        $sql = mysqli_prepare($conn, "UPDATE `produkty` SET `nazwa`=?,`cena`=?,`ilosc`=?,`opis`=? WHERE id=$_POST[id]");
+        mysqli_stmt_bind_param($sql, "sdis", $name, $cena, $ilosc, $opis);
+        mysqli_stmt_execute($sql);
         mysqli_close($conn);
         header("Location: ./index.php");
     }

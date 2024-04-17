@@ -65,8 +65,8 @@ function queryReturn()
             $result = mysqli_query($conn, $sql);
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-
-                    echo "<div class='product'>";
+                    $url = "./product.php?id=$row[id]";
+                    echo "<div class='product' onclick=redirectUser('$url')>";
                     echo "<h2 class='product-title'>$row[nazwa]</h2>";
                     echo "<div class='zdjCont'>";
                     echo "<img class='prodZdj' src='./$row[FilePath]'/>";
@@ -88,6 +88,11 @@ function queryReturn()
             ?>
         </div>
     </div>
+    <script>
+        function redirectUser(url) {
+            window.location.href = url;
+        }
+    </script>
 </body>
 
 </html>
