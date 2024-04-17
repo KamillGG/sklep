@@ -47,7 +47,7 @@ while ($row2 = mysqli_fetch_assoc($chartDataResult2)) {
 }
 
 $chartDataJson2 = json_encode($chartData2);
-$sqlData3 = "SELECT SUM(cena_sum) as 'sales',MONTH(data) as 'month' FROM statystyki GROUP BY MONTH(data)";
+$sqlData3 = "SELECT upr,COUNT(login) as login FROM `uzytkownicy` GROUP BY upr";
 $chartDataResult3 = mysqli_query($conn, $sqlData3);
 
 $chartData3 = []; // Initialize an empty array to store the data
@@ -137,9 +137,10 @@ $chartDataJson3 = json_encode($chartData3);
                     </p>
                 </div>
                 <div id="products" class="optionsC">
-                    <div class="header exception">
+                    <div class="header">
                         <h1>Sprzedaż produktow</h1>
                     </div>
+                    <p>Wyświetl statystyki</p>
                 </div>
                 <div id="pracownicy" class="optionsC">
                     <div class="header">
@@ -162,9 +163,29 @@ $chartDataJson3 = json_encode($chartData3);
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        var pleasingColors = [
+            '#1f77b4', // blue
+            '#ff7f0e', // orange
+            '#2ca02c', // green
+            '#d62728', // red
+            '#9467bd', // purple
+            '#8c564b', // brown
+            '#e377c2', // pink
+            '#7f7f7f', // gray
+            '#bcbd22', // yellow-green
+            '#17becf' // cyan
+        ];
         var chartData = <?php echo $chartDataJson; ?>;
         var chartData2 = <?php echo $chartDataJson2; ?>;
         var chartData3 = <?php echo $chartDataJson3; ?>;
+        var labele = chartData3.map(item => item.upr);
+        const labelColors = backgroundColors
+        var backgroundColors = labele.map(function() {
+            var randomIndex = getRandomColorIndex();
+            var temp = pleasingColors[randomIndex];
+            pleasingColors.splice(randomIndex, 1);
+            return temp
+        });
         console.log(chartData, chartData2, chartData3)
         var sales = chartData.map(item => item.sales);
         var labele = chartData.map(item => item.month);
@@ -179,7 +200,8 @@ $chartDataJson3 = json_encode($chartData3);
                     fill: false,
                     pointRadius: 4,
                     borderColor: "#28a745",
-                    data: sales
+                    data: sales,
+                    tension: 0.3
                 }]
             },
             options: {
@@ -189,8 +211,10 @@ $chartDataJson3 = json_encode($chartData3);
                         display: true,
                         text: "Przychód według miesiaca",
                         font: {
-                            size: 30
-                        }
+                            family: 'Arial, sans-serif',
+                            size: 25,
+                        },
+                        color: "#333"
                     },
                     tooltip: {
                         intersect: false, // Display tooltips at the same x-axis width point
@@ -221,7 +245,12 @@ $chartDataJson3 = json_encode($chartData3);
             myChart.data.datasets[0].data = sales;
             myChart.config.type = 'line';
             myChart.data.datasets[0].backgroundColor = 'transparent'
+            myChart.data.datasets[0].borderColor = '#42b15b'
             myChart.options.plugins.title.text = 'Przychód według miesiaca'
+            myChart.options.plugins.tooltip.intersect = false
+            myChart.options.plugins.tooltip.mode = 'index'
+            myChart.options.scales.x.display = true
+            myChart.options.scales.y.display = true
             myChart.update()
         }
 
@@ -232,14 +261,35 @@ $chartDataJson3 = json_encode($chartData3);
             myChart.data.datasets[0].data = sales;
             myChart.config.type = 'bar';
             myChart.data.datasets[0].backgroundColor = '#42b15b'
+            myChart.data.datasets[0].borderColor = '#42b15b'
             myChart.options.plugins.title.text = 'Sprzedaż według produktu'
+            myChart.options.plugins.tooltip.intersect = false
+            myChart.options.plugins.tooltip.mode = 'index'
+            myChart.options.scales.x.display = true
+            myChart.options.scales.y.display = true
             myChart.update()
         }
 
         function worker() {
-            sales = chartData3.map(item => item.sales);
-            labele = chartData3.map(item => item.month);
-            console.log(3)
+
+            sales = chartData3.map(item => item.login);
+            labele = chartData3.map(item => item.upr);
+            console.log(sales, labele)
+            myChart.data.labels = labele;
+            myChart.data.datasets[0].data = sales;
+            myChart.config.type = 'doughnut';
+            myChart.data.datasets[0].backgroundColor = backgroundColors
+            myChart.data.datasets[0].borderColor = backgroundColors
+            myChart.options.plugins.title.text = 'Ilość uzytkownikow i rodzaj ich uprawnien'
+            myChart.options.plugins.tooltip.intersect = true
+            myChart.options.plugins.tooltip.mode = 'point'
+            myChart.options.scales.x.display = false
+            myChart.options.scales.y.display = false
+            myChart.update()
+        }
+
+        function getRandomColorIndex() {
+            return Math.floor(Math.random() * pleasingColors.length);
         }
 
         function changed(id) {

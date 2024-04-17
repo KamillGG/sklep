@@ -29,7 +29,6 @@
         <div class="dropdown">
             <a class='przyciski'>Konto</a>
             <div class="dropdown-content">
-                <a href="./settings.php">Ustawienia</a>
                 <a href="./wyloguj.php">Wyloguj</a>
             </div>
         </div>
