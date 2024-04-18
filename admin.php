@@ -164,16 +164,16 @@ $chartDataJson3 = json_encode($chartData3);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var pleasingColors = [
-            '#1f77b4', // blue
-            '#ff7f0e', // orange
-            '#2ca02c', // green
-            '#d62728', // red
-            '#9467bd', // purple
-            '#8c564b', // brown
-            '#e377c2', // pink
-            '#7f7f7f', // gray
-            '#bcbd22', // yellow-green
-            '#17becf' // cyan
+            '	#00A36C', 
+            '	#008000', 
+            '#228B22', 
+            '#4F7942',
+            '#50C878', 
+            '	#DFFF00', 
+            '#AFE1AF',
+            '#097969',
+            '#AAFF00',
+            '#7FFFD4'
         ];
         const months = [
             "January", "February", "March", "April", "May", "June", "July",

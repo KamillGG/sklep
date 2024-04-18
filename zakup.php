@@ -63,7 +63,7 @@
                     $success5 = mysqli_stmt_execute($sql5);
                     mysqli_data_seek($result, 0);
                     while ($row = mysqli_fetch_assoc($result)) {
-                        $sql6 = "UPDATE `produkty` SET `ilosc`=ilosc-$row[ilosc_zamow]";
+                        $sql6 = "UPDATE `produkty` SET `ilosc`=ilosc-$row[ilosc_zamow] WHERE id='$row[id]'";
                         mysqli_query($conn, $sql6);
                     }
                     if ($success5) {

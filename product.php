@@ -27,8 +27,7 @@ include 'config.php';
             $result = mysqli_query($conn, $sql);
             if (mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_assoc($result);
-                if ($row['ilosc'] > $row['ilosc_zamow']) {
-                    echo $row['ilosc'] . ">" . $row['ilosc_zamow'];
+                if ($row['ilosc'] > $row['ilosc_zamow'] && $row['ilosc_zamow']<9) {
                     $sql = "UPDATE `koszyki` SET ilosc_zamow=ilosc_zamow+1  WHERE id_zamowienia='$idIns'";
                     mysqli_query($conn, $sql);
                 }

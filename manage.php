@@ -11,6 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+<?php 
+// if($_SESSION['uprawnienia']!='pracownik' || $_SESSION['uprawnienia']!='admin' || $_SESSION['uprawnienia']!='superAdmin'){
+//     header("Location: ./index.php");
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
