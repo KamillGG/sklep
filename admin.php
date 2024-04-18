@@ -168,11 +168,9 @@ $chartDataJson3 = json_encode($chartData3);
             '	#008000', 
             '#228B22', 
             '#4F7942',
-            '#50C878', 
-            '	#DFFF00', 
+            '#50C878',
             '#AFE1AF',
             '#097969',
-            '#AAFF00',
             '#7FFFD4'
         ];
         const months = [

@@ -25,6 +25,9 @@
                 echo "<a class='przyciski' href='./manage.php'>Zarządzaj Produktami</a>";
             } else echo "<a class='przyciski' href='./'>Strona Główna</a>";
         }
+        if ($_SESSION['uprawnienia'] == "user") {
+            echo "<a class='przyciski' href='./'>Strona Główna</a>";
+        }
         ?>
         <div class="dropdown">
             <a class='przyciski'>Konto</a>
